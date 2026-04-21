@@ -2,57 +2,16 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Loading…</title>
+  <title>Game</title>
   <link rel="icon" href="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body style="margin:0; background:#111; color:white; font-family:sans-serif;">
+<body style="background:#111; color:white; font-family:sans-serif; margin:0;">
 
-  <div style="padding:15px; background:#222;">
-    <button onclick="window.location.href='index.html'" style="padding:8px 14px; cursor:pointer;">
-      ⬅ Back
-    </button>
-    <span id="game-title" style="margin-left:10px; font-size:20px;"></span>
-  </div>
+  <div id="game-container" style="padding:20px;"></div>
 
-  <iframe id="game-frame" style="width:100%; height:90vh; border:none;"></iframe>
-
-  <script src="assets/app.js"></script>
-
-  <script>
-    function getParam(name) {
-      const url = new URL(window.location.href);
-      return url.searchParams.get(name);
-    }
-
-    function loadGame() {
-      const id = getParam("id");
-      const config = window.__UNBLOCKED_CONFIG__;
-      const game = config.games.find(g => g.id === id);
-
-      const frame = document.getElementById("game-frame");
-      const titleEl = document.getElementById("game-title");
-
-      if (!game) {
-        titleEl.textContent = "Game not found";
-        return;
-      }
-
-      titleEl.textContent = game.name;
-
-      if (game.localPath) {
-        frame.src = game.localPath;
-      } else {
-        frame.src = game.externalUrl;
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      applyCloak(); // KEEP CLOAKER ACTIVE
-      loadGame();
-    });
-  </script>
+  <script src="assets/game.js"></script>
 
 </body>
 </html>
