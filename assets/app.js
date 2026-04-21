@@ -8,42 +8,48 @@ const games = [
     name: "Short Ride",
     emoji: "🚴‍♂️",
     desc: "Ragdoll bike chaos with traps and physics.",
-    externalUrl: "https://ubg98.github.io/short-ride/"
+    externalUrl: "https://ubg98.github.io/short-ride/",
+    category: "action"
   },
   {
     id: "retro-bowl",
     name: "Retro Bowl",
     emoji: "🏈",
     desc: "Retro-style football management and gameplay.",
-    externalUrl: "https://example-retro-bowl-mirror.github.io"
+    externalUrl: "https://example-retro-bowl-mirror.github.io",
+    category: "sports"
   },
   {
     id: "1v1-lol",
     name: "1v1.lol",
     emoji: "⚔️",
     desc: "Build and fight in fast 1v1 matches.",
-    externalUrl: "https://example-1v1lol-mirror.github.io"
+    externalUrl: "https://example-1v1lol-mirror.github.io",
+    category: "action"
   },
   {
     id: "slope",
     name: "Slope",
     emoji: "🟢",
     desc: "Fast 3D downhill ball game.",
-    externalUrl: "https://ubg98.github.io/slope/"
+    externalUrl: "https://ubg98.github.io/slope/",
+    category: "runner"
   },
   {
     id: "drift-boss",
     name: "Drift Boss",
     emoji: "🚗",
     desc: "Simple drifting game with addictive controls.",
-    externalUrl: "https://ubg98.github.io/drift-boss/"
+    externalUrl: "https://ubg98.github.io/drift-boss/",
+    category: "arcade"
   },
   {
     id: "run-3",
     name: "Run 3",
     emoji: "🏃",
     desc: "Parkour through space tunnels.",
-    externalUrl: "https://ubg98.github.io/run-3/"
+    externalUrl: "https://ubg98.github.io/run-3/",
+    category: "runner"
   }
 ];
 
@@ -153,15 +159,54 @@ const proxies = [
 
 
 // =========================
+//  STATE & STORAGE HELPERS
+// =========================
+
+let favorites = [];
+let recent = [];
+let activeCategory = "all";
+
+function loadArray(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveArray(key, arr) {
+  localStorage.setItem(key, JSON.stringify(arr));
+}
+
+function loadState() {
+  favorites = loadArray("favoritesGames");
+  recent = loadArray("recentGames");
+}
+
+function saveFavorites() {
+  saveArray("favoritesGames", favorites);
+}
+
+function saveRecent() {
+  saveArray("recentGames", recent);
+}
+
+
+// =========================
 //  CARD GENERATOR
 // =========================
 
 function createCard(item, type) {
   const card = document.createElement("div");
-  card.className = "card"; // REQUIRED FOR SEARCH BAR
+  card.className = "card";
   card.style.background = "#222";
   card.style.padding = "15px";
   card.style.borderRadius = "10px";
+  card.dataset.category = item.category || "";
+
+  const isGame = type === "game";
+  const isFav = isGame && favorites.includes(item.id);
 
   card.innerHTML = `
     <div>
@@ -171,20 +216,40 @@ function createCard(item, type) {
       </div>
       <div class="card-body" style="margin-top:10px; opacity:0.8;">${item.desc}</div>
     </div>
-    <div class="card-footer" style="margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
-      <span class="card-tag" style="opacity:0.7;">${type === "game" ? "Game" : "Cloaker"}</span>
-      <button class="card-button" style="padding:6px 12px; cursor:pointer;">Open</button>
+    <div class="card-footer" style="margin-top:15px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+      <span class="card-tag" style="opacity:0.7;">${isGame ? "Game" : "Cloaker"}</span>
+      <div style="display:flex; gap:6px; align-items:center;">
+        ${
+          isGame
+            ? `<button class="fav-toggle" style="padding:4px 8px; cursor:pointer; border:none; border-radius:6px; background:#333; color:#fff;">
+                 ${isFav ? "★" : "☆"}
+               </button>`
+            : ""
+        }
+        <button class="card-button" style="padding:6px 12px; cursor:pointer;">Open</button>
+      </div>
     </div>
   `;
 
-  const button = card.querySelector(".card-button");
+  const openButton = card.querySelector(".card-button");
 
-  if (type === "game") {
-    button.addEventListener("click", () => {
+  if (isGame) {
+    openButton.addEventListener("click", () => {
+      addToRecent(item.id);
       window.location.href = `game.html?id=${encodeURIComponent(item.id)}`;
     });
+
+    const favBtn = card.querySelector(".fav-toggle");
+    if (favBtn) {
+      favBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleFavorite(item.id);
+        favBtn.textContent = favorites.includes(item.id) ? "★" : "☆";
+        renderFavorites();
+      });
+    }
   } else {
-    button.addEventListener("click", () => {
+    openButton.addEventListener("click", () => {
       setCloak(item);
     });
   }
@@ -194,39 +259,163 @@ function createCard(item, type) {
 
 
 // =========================
+//  RENDER FUNCTIONS
+// =========================
+
+function renderGames() {
+  const gamesGrid = document.getElementById("games-grid");
+  if (!gamesGrid) return;
+  gamesGrid.innerHTML = "";
+
+  games.forEach(g => {
+    if (activeCategory !== "all" && g.category !== activeCategory) return;
+    gamesGrid.appendChild(createCard(g, "game"));
+  });
+
+  applySearchFilter();
+}
+
+function renderFavorites() {
+  const favGrid = document.getElementById("favorites-grid");
+  if (!favGrid) return;
+  favGrid.innerHTML = "";
+
+  const favGames = favorites
+    .map(id => games.find(g => g.id === id))
+    .filter(Boolean);
+
+  favGames.forEach(g => {
+    favGrid.appendChild(createCard(g, "game"));
+  });
+}
+
+function renderRecent() {
+  const recentGrid = document.getElementById("recent-grid");
+  if (!recentGrid) return;
+  recentGrid.innerHTML = "";
+
+  const recentGames = recent
+    .map(id => games.find(g => g.id === id))
+    .filter(Boolean);
+
+  recentGames.forEach(g => {
+    recentGrid.appendChild(createCard(g, "game"));
+  });
+}
+
+
+// =========================
+//  FAVORITES & RECENT LOGIC
+// =========================
+
+function toggleFavorite(id) {
+  if (favorites.includes(id)) {
+    favorites = favorites.filter(x => x !== id);
+  } else {
+    favorites.push(id);
+  }
+  saveFavorites();
+}
+
+function addToRecent(id) {
+  recent = [id, ...recent.filter(x => x !== id)].slice(0, 5);
+  saveRecent();
+}
+
+function applySearchFilter() {
+  const searchInput = document.getElementById("game-search");
+  if (!searchInput) return;
+
+  const value = searchInput.value.toLowerCase();
+  const cards = document.querySelectorAll("#games-grid .card");
+
+  cards.forEach(card => {
+    const title = card.querySelector(".card-title")?.textContent.toLowerCase() || "";
+    const desc = card.querySelector(".card-body")?.textContent.toLowerCase() || "";
+    const category = card.dataset.category || "";
+
+    const matchesText = title.includes(value) || desc.includes(value);
+    const matchesCategory =
+      activeCategory === "all" || category === activeCategory;
+
+    card.style.display = matchesText && matchesCategory ? "block" : "none";
+  });
+}
+
+
+// =========================
 //  PAGE INITIALIZER
 // =========================
 
 function init() {
-  const gamesGrid = document.getElementById("games-grid");
-  const proxyGrid = document.getElementById("proxy-grid");
+  loadState();
 
-  games.forEach(g => gamesGrid.appendChild(createCard(g, "game")));
+  const proxyGrid = document.getElementById("proxy-grid");
+  const loader = document.getElementById("loader");
+  const resetBtn = document.getElementById("reset-cloak");
+
+  // Render proxies
   proxies.forEach(p => proxyGrid.appendChild(createCard(p, "proxy")));
 
+  // Render main sections
+  renderGames();
+  renderFavorites();
+  renderRecent();
+
+  // Apply cloak if active
   applyCloak();
 
-  // SEARCH BAR LOGIC
+  // Search bar
   const searchInput = document.getElementById("game-search");
-
   if (searchInput) {
     searchInput.addEventListener("input", () => {
-      const value = searchInput.value.toLowerCase();
-
-      const cards = document.querySelectorAll("#games-grid .card");
-
-      cards.forEach(card => {
-        const title = card.querySelector(".card-title")?.textContent.toLowerCase() || "";
-        const desc = card.querySelector(".card-body")?.textContent.toLowerCase() || "";
-
-        if (title.includes(value) || desc.includes(value)) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
+      applySearchFilter();
     });
   }
+
+  // Category filters
+  const catButtons = document.querySelectorAll("#category-filters .cat-btn");
+  catButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      catButtons.forEach(b => (b.style.background = "#222"));
+      btn.style.background = "#333";
+      activeCategory = btn.dataset.category || "all";
+      renderGames();
+    });
+  });
+
+  // Reset cloaker button
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      localStorage.removeItem("activeCloak");
+      document.title = "Home";
+      const link = document.querySelector("link[rel='icon']");
+      if (link) link.href = "";
+    });
+  }
+
+  // Panic key: Q = cloak (first proxy), ESC = reset
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "q" || e.key === "Q") {
+      if (proxies[0]) setCloak(proxies[0]);
+    }
+    if (e.key === "Escape") {
+      localStorage.removeItem("activeCloak");
+      document.title = "Home";
+      const link = document.querySelector("link[rel='icon']");
+      if (link) link.href = "";
+    }
+  });
+
+  // Loading screen fade out
+  window.addEventListener("load", () => {
+    if (loader) {
+      loader.style.opacity = "0";
+      setTimeout(() => {
+        loader.style.display = "none";
+      }, 300);
+    }
+  });
 }
 
 document.addEventListener("DOMContentLoaded", init);
