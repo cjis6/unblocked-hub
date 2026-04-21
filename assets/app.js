@@ -17,7 +17,7 @@ const games = [
     name: "Retro Bowl",
     emoji: "🏈",
     desc: "Retro-style football management and gameplay.",
-    externalUrl: "https://example-retro-bowl-mirror.github.io",
+    externalUrl: "https://amhooman.github.io/website/games/retrobowl/",
     category: "sports",
     thumbnail: "https://i.imgur.com/1oQ0yqV.png"
   },
