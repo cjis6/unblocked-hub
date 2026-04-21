@@ -47,6 +47,86 @@ const proxies = [
     desc: "Makes the tab look like a learning dashboard.",
     title: "Learning Dashboard",
     icon: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Blue_book_icon.svg"
+  },
+  {
+    id: "docs",
+    name: "Google Docs",
+    emoji: "📄",
+    desc: "Disguises the tab as Google Docs.",
+    title: "Google Docs",
+    icon: "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"
+  },
+  {
+    id: "drive",
+    name: "Google Drive",
+    emoji: "📁",
+    desc: "Disguises the tab as Google Drive.",
+    title: "My Drive - Google Drive",
+    icon: "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png"
+  },
+  {
+    id: "slides",
+    name: "Google Slides",
+    emoji: "📊",
+    desc: "Disguises the tab as Google Slides.",
+    title: "Google Slides",
+    icon: "https://ssl.gstatic.com/docs/presentations/images/favicon5.ico"
+  },
+  {
+    id: "forms",
+    name: "Google Forms",
+    emoji: "📝",
+    desc: "Disguises the tab as Google Forms.",
+    title: "Google Forms",
+    icon: "https://ssl.gstatic.com/docs/spreadsheets/forms/favicon_qp2.png"
+  },
+  {
+    id: "gmail",
+    name: "Gmail",
+    emoji: "✉️",
+    desc: "Disguises the tab as Gmail.",
+    title: "Gmail",
+    icon: "https://ssl.gstatic.com/ui/v1/icons/mail/rfr/gmail.ico"
+  },
+  {
+    id: "khan",
+    name: "Khan Academy",
+    emoji: "📗",
+    desc: "Disguises the tab as Khan Academy.",
+    title: "Khan Academy",
+    icon: "https://cdn.kastatic.org/images/favicon.ico"
+  },
+  {
+    id: "schoology",
+    name: "Schoology",
+    emoji: "🏫",
+    desc: "Disguises the tab as Schoology.",
+    title: "Schoology",
+    icon: "https://asset-cdn.schoology.com/sites/all/themes/schoology_theme/favicon.ico"
+  },
+  {
+    id: "canvas",
+    name: "Canvas",
+    emoji: "🖍️",
+    desc: "Disguises the tab as Canvas LMS.",
+    title: "Dashboard — Canvas",
+    icon: "https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico"
+  },
+  {
+    id: "wiki",
+    name: "Wikipedia",
+    emoji: "🌐",
+    desc: "Disguises the tab as Wikipedia.",
+    title: "Wikipedia",
+    icon: "https://www.wikipedia.org/static/favicon/wikipedia.ico"
+  },
+  {
+    id: "math",
+    name: "Math Practice",
+    emoji: "➗",
+    desc: "Generic school math practice tab.",
+    title: "Math Practice",
+    icon: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
   }
 ];
 
