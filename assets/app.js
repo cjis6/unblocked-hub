@@ -8,8 +8,8 @@ const games = [
     name: "Short Ride",
     emoji: "🚴‍♂️",
     desc: "Ragdoll bike chaos with traps and physics.",
-    localPath: "games/short-ride/index.html",
-    externalUrl: "https://shortrideonline.github.io"
+    localPath: null,
+    externalUrl: "https://ubg98.github.io/short-ride/"
   },
   {
     id: "retro-bowl",
