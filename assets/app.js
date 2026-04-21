@@ -351,7 +351,6 @@ function init() {
   loadState();
 
   const proxyGrid = document.getElementById("proxy-grid");
-  const loader = document.getElementById("loader");
   const resetBtn = document.getElementById("reset-cloak");
 
   // Render proxies
