@@ -1,65 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Proxy Loader</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #000;
-      font-family: Arial, sans-serif;
-    }
-
-    header {
-      padding: 10px 14px;
-      background: #111;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #333;
-    }
-
-    header button {
-      background: #333;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    header button:hover {
-      background: #444;
-    }
-
-    iframe {
-      width: 100%;
-      height: calc(100vh - 50px);
-      border: none;
-      background: black;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Loading…</title>
+  <link id="favicon" rel="icon" href="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
+<body style="background:#111; color:white; font-family:sans-serif; padding:20px;">
 
-  <!-- Top bar -->
-  <header>
-    <span id="proxy-title">Loading…</span>
-    <button onclick="window.location.href='index.html'">Back</button>
-  </header>
+  <h2 id="proxy-title">Loading…</h2>
+  <p>This page is now disguised.</p>
+  <button onclick="window.location.href='index.html'">Back</button>
 
-  <!-- The proxy screen -->
-  <iframe id="proxy-frame"></iframe>
-
-  <!-- Load your config -->
   <script src="assets/app.js"></script>
 
-  <!-- Proxy loader logic -->
   <script>
     function getParam(name) {
       const url = new URL(window.location.href);
@@ -71,16 +26,16 @@
       const config = window.__UNBLOCKED_CONFIG__;
       const proxy = config.proxies.find(p => p.id === id);
 
-      const frame = document.getElementById("proxy-frame");
-      const titleEl = document.getElementById("proxy-title");
+      if (!proxy) return;
 
-      if (!proxy) {
-        titleEl.textContent = "Proxy not found";
-        return;
-      }
+      // Change tab title
+      document.title = proxy.title;
 
-      titleEl.textContent = proxy.name;
-      frame.src = proxy.url;
+      // Change favicon
+      document.getElementById("favicon").href = proxy.icon;
+
+      // Change page text
+      document.getElementById("proxy-title").textContent = proxy.name;
     }
 
     document.addEventListener("DOMContentLoaded", loadProxy);
