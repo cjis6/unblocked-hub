@@ -9,7 +9,8 @@ const games = [
     emoji: "🚴‍♂️",
     desc: "Ragdoll bike chaos with traps and physics.",
     externalUrl: "https://ubg98.github.io/short-ride/",
-    category: "action"
+    category: "action",
+    thumbnail: "https://i.imgur.com/8pQeQ1F.png"
   },
   {
     id: "retro-bowl",
@@ -17,7 +18,8 @@ const games = [
     emoji: "🏈",
     desc: "Retro-style football management and gameplay.",
     externalUrl: "https://example-retro-bowl-mirror.github.io",
-    category: "sports"
+    category: "sports",
+    thumbnail: "https://i.imgur.com/1oQ0yqV.png"
   },
   {
     id: "1v1-lol",
@@ -25,7 +27,8 @@ const games = [
     emoji: "⚔️",
     desc: "Build and fight in fast 1v1 matches.",
     externalUrl: "https://example-1v1lol-mirror.github.io",
-    category: "action"
+    category: "action",
+    thumbnail: "https://i.imgur.com/8xYkz8s.png"
   },
   {
     id: "slope",
@@ -33,7 +36,8 @@ const games = [
     emoji: "🟢",
     desc: "Fast 3D downhill ball game.",
     externalUrl: "https://ubg98.github.io/slope/",
-    category: "runner"
+    category: "runner",
+    thumbnail: "https://i.imgur.com/8z6xF3P.png"
   },
   {
     id: "drift-boss",
@@ -41,7 +45,8 @@ const games = [
     emoji: "🚗",
     desc: "Simple drifting game with addictive controls.",
     externalUrl: "https://ubg98.github.io/drift-boss/",
-    category: "arcade"
+    category: "arcade",
+    thumbnail: "https://i.imgur.com/3k0m1tV.png"
   },
   {
     id: "run-3",
@@ -49,7 +54,8 @@ const games = [
     emoji: "🏃",
     desc: "Parkour through space tunnels.",
     externalUrl: "https://ubg98.github.io/run-3/",
-    category: "runner"
+    category: "runner",
+    thumbnail: "https://i.imgur.com/2yq8p8U.png"
   }
 ];
 
@@ -75,7 +81,6 @@ const proxies = [
     title: "Google Docs",
     icon: "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"
   }
-  // (You can add more cloakers here)
 ];
 
 
@@ -117,6 +122,14 @@ function createCard(item, type) {
   const isFav = favorites.includes(item.id);
 
   card.innerHTML = `
+    <img src="${item.thumbnail}" style="
+      width:100%;
+      height:140px;
+      object-fit:cover;
+      border-radius:8px;
+      margin-bottom:10px;
+    ">
+
     <div>
       <div style="display:flex; align-items:center; gap:10px;">
         <div style="font-size:30px;">${item.emoji}</div>
@@ -267,21 +280,17 @@ function setCloak(c) {
 function init() {
   loadState();
 
-  // Render everything
   renderGames();
   renderFavorites();
   renderRecent();
 
-  // Render proxies
   const proxyGrid = document.getElementById("proxy-grid");
   proxies.forEach(p => proxyGrid.appendChild(createCard(p, "proxy")));
 
   applyCloak();
 
-  // Search
   document.getElementById("game-search").addEventListener("input", applySearchFilter);
 
-  // Category filters
   const catBtns = document.querySelectorAll(".cat-btn");
   catBtns.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -292,7 +301,6 @@ function init() {
     });
   });
 
-  // Reset cloaker
   document.getElementById("reset-cloak").addEventListener("click", () => {
     localStorage.removeItem("activeCloak");
     document.title = "Home";
@@ -300,7 +308,6 @@ function init() {
     if (link) link.href = "";
   });
 
-  // Panic key
   window.addEventListener("keydown", (e) => {
     if (e.key === "q" || e.key === "Q") {
       if (proxies[0]) setCloak(proxies[0]);
@@ -315,3 +322,10 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+
+// =========================
+//  EXPORT CONFIG
+// =========================
+
+window.__UNBLOCKED_CONFIG__ = { games, proxies };
