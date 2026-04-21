@@ -1,4 +1,6 @@
-// assets/app.js
+// =========================
+//  GAME + PROXY CONFIG
+// =========================
 
 const games = [
   {
@@ -6,9 +8,7 @@ const games = [
     name: "Short Ride",
     emoji: "🚴‍♂️",
     desc: "Ragdoll bike chaos with traps and physics.",
-    // If you host the game yourself:
     localPath: "games/short-ride/index.html",
-    // Or if you only have an external mirror:
     externalUrl: "https://shortrideonline.github.io"
   },
   {
@@ -37,12 +37,17 @@ const proxies = [
   },
   {
     id: "proxy-2",
-    name: "Tab Cloak Tool",
+    name: "Cloaked Browser",
     emoji: "🕶",
     desc: "Simple web tool interface in an iframe.",
     url: "https://example-proxy-2.github.io"
   }
 ];
+
+
+// =========================
+//  CARD GENERATOR
+// =========================
 
 function createCard(item, type) {
   const card = document.createElement("div");
@@ -65,16 +70,19 @@ function createCard(item, type) {
   const button = card.querySelector(".card-button");
   button.addEventListener("click", () => {
     if (type === "game") {
-      // Send to game loader with id
       window.location.href = `game.html?id=${encodeURIComponent(item.id)}`;
     } else {
-      // Send to proxy loader with id
       window.location.href = `proxy.html?id=${encodeURIComponent(item.id)}`;
     }
   });
 
   return card;
 }
+
+
+// =========================
+//  PAGE INITIALIZER
+// =========================
 
 function init() {
   const gamesGrid = document.getElementById("games-grid");
@@ -86,6 +94,9 @@ function init() {
 
 document.addEventListener("DOMContentLoaded", init);
 
-// Expose configs for other pages
-window.__UNBLOCKED_CONFIG__ = { games, proxies };
 
+// =========================
+//  EXPORT CONFIG
+// =========================
+
+window.__UNBLOCKED_CONFIG__ = { games, proxies };
