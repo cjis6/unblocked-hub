@@ -137,25 +137,26 @@ const proxies = [
 
 function createCard(item, type) {
   const card = document.createElement("div");
+  card.className = "card";
   card.style.background = "#222";
   card.style.padding = "15px";
   card.style.borderRadius = "10px";
 
   card.innerHTML = `
     <div>
-      <div style="display:flex; align-items:center; gap:10px;">
-        <div style="font-size:30px;">${item.emoji}</div>
-        <div style="font-size:20px; font-weight:bold;">${item.name}</div>
+      <div class="card-header" style="display:flex; align-items:center; gap:10px;">
+        <div class="card-emoji" style="font-size:30px;">${item.emoji}</div>
+        <div class="card-title" style="font-size:20px; font-weight:bold;">${item.name}</div>
       </div>
-      <div style="margin-top:10px; opacity:0.8;">${item.desc}</div>
+      <div class="card-body" style="margin-top:10px; opacity:0.8;">${item.desc}</div>
     </div>
-    <div style="margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
-      <span style="opacity:0.7;">${type === "game" ? "Game" : "Cloaker"}</span>
-      <button style="padding:6px 12px; cursor:pointer;">Open</button>
+    <div class="card-footer" style="margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
+      <span class="card-tag" style="opacity:0.7;">${type === "game" ? "Game" : "Cloaker"}</span>
+      <button class="card-button" style="padding:6px 12px; cursor:pointer;">Open</button>
     </div>
   `;
 
-  const button = card.querySelector("button");
+  const button = card.querySelector(".card-button");
 
   if (type === "game") {
     button.addEventListener("click", () => {
@@ -183,6 +184,28 @@ function init() {
   proxies.forEach(p => proxyGrid.appendChild(createCard(p, "proxy")));
 
   applyCloak();
+
+  // SEARCH BAR LOGIC
+  const searchInput = document.getElementById("game-search");
+
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      const value = searchInput.value.toLowerCase();
+
+      const cards = document.querySelectorAll("#games-grid .card");
+
+      cards.forEach(card => {
+        const title = card.querySelector(".card-title")?.textContent.toLowerCase() || "";
+        const desc = card.querySelector(".card-body")?.textContent.toLowerCase() || "";
+
+        if (title.includes(value) || desc.includes(value)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", init);
