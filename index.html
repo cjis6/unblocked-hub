@@ -1,48 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Unblocked Hub</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="assets/style.css" />
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="icon" href="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
-  <div class="app">
-    <aside class="sidebar">
-      <h1>Unblocked Hub</h1>
-      <nav>
-        <a href="#games">🎮 Games</a>
-        <a href="#proxies">🛰 Proxies</a>
-        <a href="#about">ℹ About</a>
-      </nav>
-    </aside>
 
-    <main class="content">
-      <section id="games">
-        <h2>Games</h2>
-        <div class="grid" id="games-grid">
-          <!-- Cards injected by app.js -->
-        </div>
-      </section>
+<body style="background:#111; color:white; font-family:sans-serif; margin:0;">
 
-      <section id="proxies">
-        <h2>Proxies & Web Tools</h2>
-        <div class="grid" id="proxy-grid">
-          <!-- Proxy cards injected by app.js -->
-        </div>
-      </section>
+  <div style="padding:15px; background:#222; font-size:22px; font-weight:bold;">
+    Home
+  </div>
 
-      <section id="about">
-        <h2>About</h2>
-        <p>
-          This is a static unblocked hub hosted on GitHub Pages. 
-          Games and tools load in fullscreen via a clean, minimal UI.
-        </p>
-      </section>
-    </main>
+  <div style="padding:20px;">
+    <h2>Games</h2>
+    <div id="games-grid" style="
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+      gap:15px;
+    "></div>
+
+    <h2 style="margin-top:30px;">Proxies</h2>
+    <div id="proxy-grid" style="
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+      gap:15px;
+    "></div>
   </div>
 
   <script src="assets/app.js"></script>
+
 </body>
 </html>
-
