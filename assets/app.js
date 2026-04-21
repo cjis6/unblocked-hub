@@ -80,6 +80,30 @@ const proxies = [
     desc: "Disguises the tab as Google Docs.",
     title: "Google Docs",
     icon: "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"
+  },
+  {
+     id: "docs",
+    name: "Google Docs",
+    emoji: "📄",
+    desc: "Disguises the tab as Google Docs.",
+    title: "Google Docs",
+    icon: "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png"
+  },
+  {
+    id: "drive",
+    name: "Google Drive",
+    emoji: "📁",
+    desc: "Disguises the tab as Google Drive.",
+    title: "My Drive - Google Drive",
+    icon: "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png"
+  },
+  {
+    id: "slides",
+    name: "Google Slides",
+    emoji: "📊",
+    desc: "Disguises the tab as Google Slides.",
+    title: "Google Slides",
+    icon: "https://ssl.gstatic.com/docs/presentations/images/favicon5.ico"
   }
 ];
 
