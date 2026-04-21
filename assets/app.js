@@ -8,7 +8,6 @@ const games = [
     name: "Short Ride",
     emoji: "🚴‍♂️",
     desc: "Ragdoll bike chaos with traps and physics.",
-    localPath: null,
     externalUrl: "https://ubg98.github.io/short-ride/"
   },
   {
@@ -58,30 +57,31 @@ const proxies = [
 
 function createCard(item, type) {
   const card = document.createElement("div");
-  card.className = "card";
+  card.style.background = "#222";
+  card.style.padding = "15px";
+  card.style.borderRadius = "10px";
 
   card.innerHTML = `
     <div>
-      <div class="card-header">
-        <div class="card-emoji">${item.emoji}</div>
-        <div class="card-title">${item.name}</div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="font-size:30px;">${item.emoji}</div>
+        <div style="font-size:20px; font-weight:bold;">${item.name}</div>
       </div>
-      <div class="card-body">${item.desc}</div>
+      <div style="margin-top:10px; opacity:0.8;">${item.desc}</div>
     </div>
-    <div class="card-footer">
-      <span class="card-tag">${type === "game" ? "Game" : "Cloaker"}</span>
-      <button class="card-button">Open</button>
+    <div style="margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
+      <span style="opacity:0.7;">${type === "game" ? "Game" : "Cloaker"}</span>
+      <button style="padding:6px 12px; cursor:pointer;">Open</button>
     </div>
   `;
 
-  const button = card.querySelector(".card-button");
+  const button = card.querySelector("button");
 
   if (type === "game") {
     button.addEventListener("click", () => {
       window.location.href = `game.html?id=${encodeURIComponent(item.id)}`;
     });
   } else {
-    // CLOAKER BUTTON — NO REDIRECT
     button.addEventListener("click", () => {
       setCloak(item);
     });
@@ -102,7 +102,6 @@ function init() {
   games.forEach(g => gamesGrid.appendChild(createCard(g, "game")));
   proxies.forEach(p => proxyGrid.appendChild(createCard(p, "proxy")));
 
-  // Apply cloak on page load
   applyCloak();
 }
 
@@ -117,10 +116,8 @@ function applyCloak() {
   const cloak = JSON.parse(localStorage.getItem("activeCloak"));
   if (!cloak) return;
 
-  // Change tab title
   document.title = cloak.title;
 
-  // Change favicon
   let link = document.querySelector("link[rel='icon']");
   if (!link) {
     link = document.createElement("link");
