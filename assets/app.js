@@ -1,5 +1,5 @@
 // =========================
-//  GAME + PROXY CONFIG
+//  GAME CONFIG
 // =========================
 
 const games = [
@@ -27,8 +27,9 @@ const games = [
   }
 ];
 
+
 // =========================
-//  TAB CLOAKERS (replaces browsing proxies)
+//  TAB CLOAKERS
 // =========================
 
 const proxies = [
@@ -38,7 +39,7 @@ const proxies = [
     emoji: "📚",
     desc: "Makes the tab look like Google Classroom.",
     title: "Google Classroom",
-    icon: "https://ssl.gstatic.com/classroom/favicon.ico"
+    icon: "https://www.gstatic.com/classroom/favicon.ico"
   },
   {
     id: "learning",
@@ -74,13 +75,17 @@ function createCard(item, type) {
   `;
 
   const button = card.querySelector(".card-button");
-  button.addEventListener("click", () => {
-    if (type === "game") {
+
+  if (type === "game") {
+    button.addEventListener("click", () => {
       window.location.href = `game.html?id=${encodeURIComponent(item.id)}`;
-    } else {
-      window.location.href = `proxy.html?id=${encodeURIComponent(item.id)}`;
-    }
-  });
+    });
+  } else {
+    // CLOAKER BUTTON — NO REDIRECT
+    button.addEventListener("click", () => {
+      setCloak(item);
+    });
+  }
 
   return card;
 }
@@ -96,9 +101,39 @@ function init() {
 
   games.forEach(g => gamesGrid.appendChild(createCard(g, "game")));
   proxies.forEach(p => proxyGrid.appendChild(createCard(p, "proxy")));
+
+  // Apply cloak on page load
+  applyCloak();
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+
+// =========================
+//  TAB CLOAKER SYSTEM
+// =========================
+
+function applyCloak() {
+  const cloak = JSON.parse(localStorage.getItem("activeCloak"));
+  if (!cloak) return;
+
+  // Change tab title
+  document.title = cloak.title;
+
+  // Change favicon
+  let link = document.querySelector("link[rel='icon']");
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.head.appendChild(link);
+  }
+  link.href = cloak.icon;
+}
+
+function setCloak(cloaker) {
+  localStorage.setItem("activeCloak", JSON.stringify(cloaker));
+  applyCloak();
+}
 
 
 // =========================
