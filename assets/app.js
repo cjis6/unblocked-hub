@@ -23,6 +23,27 @@ const games = [
     emoji: "⚔️",
     desc: "Build and fight in fast 1v1 matches.",
     externalUrl: "https://example-1v1lol-mirror.github.io"
+  },
+  {
+    id: "slope",
+    name: "Slope",
+    emoji: "🟢",
+    desc: "Fast 3D downhill ball game.",
+    externalUrl: "https://ubg98.github.io/slope/"
+  },
+  {
+    id: "drift-boss",
+    name: "Drift Boss",
+    emoji: "🚗",
+    desc: "Simple drifting game with addictive controls.",
+    externalUrl: "https://ubg98.github.io/drift-boss/"
+  },
+  {
+    id: "run-3",
+    name: "Run 3",
+    emoji: "🏃",
+    desc: "Parkour through space tunnels.",
+    externalUrl: "https://ubg98.github.io/run-3/"
   }
 ];
 
@@ -137,7 +158,7 @@ const proxies = [
 
 function createCard(item, type) {
   const card = document.createElement("div");
-  card.className = "card";
+  card.className = "card"; // REQUIRED FOR SEARCH BAR
   card.style.background = "#222";
   card.style.padding = "15px";
   card.style.borderRadius = "10px";
