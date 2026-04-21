@@ -10,16 +10,80 @@
 
 <body style="background:#111; color:white; font-family:sans-serif; margin:0;">
 
+  <!-- LOADING SCREEN -->
+  <div id="loader" style="
+    position:fixed;
+    inset:0;
+    background:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    font-size:24px;
+    letter-spacing:2px;
+    transition:opacity 0.3s ease;
+  ">
+    <span>Loading CJ Hub...</span>
+  </div>
+
   <!-- HEADER -->
-  <div style="padding:15px; background:#222; font-size:22px; font-weight:bold;">
-    Home
+  <div style="padding:15px; background:#222; font-size:22px; font-weight:bold; display:flex; justify-content:space-between; align-items:center;">
+    <span>Home</span>
+    <button id="reset-cloak" style="
+      background:#333;
+      color:#fff;
+      border:none;
+      padding:6px 12px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:14px;
+    ">
+      Reset Cloaker
+    </button>
   </div>
 
   <!-- CONTENT -->
   <div style="padding:20px;">
 
+    <!-- FAVORITES SECTION -->
+    <h2 style="margin-bottom:10px;">Favorites</h2>
+    <div id="favorites-grid" style="
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+      gap:15px;
+      margin-bottom:25px;
+    "></div>
+
+    <!-- RECENTLY PLAYED SECTION -->
+    <h2 style="margin-bottom:10px;">Recently Played</h2>
+    <div id="recent-grid" style="
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+      gap:15px;
+      margin-bottom:25px;
+    "></div>
+
     <!-- GAMES SECTION -->
     <h2 style="margin-bottom:10px;">Games</h2>
+
+    <!-- CATEGORY FILTERS -->
+    <div id="category-filters" style="margin-bottom:10px; display:flex; flex-wrap:wrap; gap:8px;">
+      <button data-category="all" class="cat-btn" style="padding:6px 10px; border:none; border-radius:6px; cursor:pointer; background:#333; color:#fff;">
+        All
+      </button>
+      <button data-category="action" class="cat-btn" style="padding:6px 10px; border:none; border-radius:6px; cursor:pointer; background:#222; color:#fff;">
+        Action
+      </button>
+      <button data-category="sports" class="cat-btn" style="padding:6px 10px; border:none; border-radius:6px; cursor:pointer; background:#222; color:#fff;">
+        Sports
+      </button>
+      <button data-category="arcade" class="cat-btn" style="padding:6px 10px; border:none; border-radius:6px; cursor:pointer; background:#222; color:#fff;">
+        Arcade
+      </button>
+      <button data-category="runner" class="cat-btn" style="padding:6px 10px; border:none; border-radius:6px; cursor:pointer; background:#222; color:#fff;">
+        Runner
+      </button>
+    </div>
 
     <input 
       id="game-search"
