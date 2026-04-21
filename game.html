@@ -1,33 +1,97 @@
-<script src="assets/app.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Game | Unblocked Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #020617;
+    }
+    .frame-wrap {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 8px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      z-index: 10;
+    }
+    header span {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+    header button {
+      border: none;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: rgba(148, 163, 184, 0.2);
+      color: #e5e7eb;
+    }
+    iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame-wrap">
+    <header>
+      <span id="game-title">Loading…</span>
+      <div>
+        <button onclick="window.location.href='index.html'">Back</button>
+      </div>
+    </header>
+    <iframe id="game-frame" src=""></iframe>
+  </div>
 
-<script>
-  function getParam(name) {
-    const url = new URL(window.location.href);
-    return url.searchParams.get(name);
-  }
-
-  function loadGame() {
-    const id = getParam("id");
-    const config = window.__UNBLOCKED_CONFIG__;
-    const game = config.games.find(g => g.id === id);
-
-    const frame = document.getElementById("game-frame");
-    const titleEl = document.getElementById("game-title");
-
-    if (!game) {
-      titleEl.textContent = "Game not found";
-      return;
+  <script src="assets/app.js"></script>
+  <script>
+    function getParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
     }
 
-    titleEl.textContent = game.name;
+    function loadGame() {
+      const id = getParam("id");
+      const config = window.__UNBLOCKED_CONFIG__;
+      const game = config.games.find(g => g.id === id);
 
-    if (game.localPath) {
-      frame.src = game.localPath;
-    } else {
-      frame.src = game.externalUrl;
+      const titleEl = document.getElementById("game-title");
+      const frame = document.getElementById("game-frame");
+
+      if (!game) {
+        titleEl.textContent = "Game not found";
+        return;
+      }
+
+      titleEl.textContent = game.name;
+
+      // Prefer localPath if you host the game, otherwise externalUrl
+      if (game.localPath) {
+        frame.src = game.localPath;
+      } else if (game.externalUrl) {
+        frame.src = game.externalUrl;
+      } else {
+        titleEl.textContent = "No source configured for this game.";
+      }
     }
-  }
 
-  document.addEventListener("DOMContentLoaded", loadGame);
-</script>
-
+    document.addEventListener("DOMContentLoaded", loadGame);
+  </script>
+</body>
+</html>
