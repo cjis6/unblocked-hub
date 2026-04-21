@@ -1,1 +1,33 @@
+<script src="assets/app.js"></script>
+
+<script>
+  function getParam(name) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name);
+  }
+
+  function loadGame() {
+    const id = getParam("id");
+    const config = window.__UNBLOCKED_CONFIG__;
+    const game = config.games.find(g => g.id === id);
+
+    const frame = document.getElementById("game-frame");
+    const titleEl = document.getElementById("game-title");
+
+    if (!game) {
+      titleEl.textContent = "Game not found";
+      return;
+    }
+
+    titleEl.textContent = game.name;
+
+    if (game.localPath) {
+      frame.src = game.localPath;
+    } else {
+      frame.src = game.externalUrl;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadGame);
+</script>
 
