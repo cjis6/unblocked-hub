@@ -10,7 +10,7 @@ const games = [
     desc: "Ragdoll bike chaos with traps and physics.",
     externalUrl: "https://ubg98.github.io/short-ride/",
     category: "action",
-    thumbnail: "https://i.imgur.com/8pQeQ1F.png"
+    thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPDQyneEKcKkAvwgHnhy4oBqsgrtwkm7R9Rw&s"
   },
   {
     id: "retro-bowl",
