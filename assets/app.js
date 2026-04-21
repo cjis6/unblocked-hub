@@ -27,20 +27,26 @@ const games = [
   }
 ];
 
+// =========================
+//  TAB CLOAKERS (replaces browsing proxies)
+// =========================
+
 const proxies = [
   {
-    id: "proxy-1",
-    name: "Stealth Proxy",
-    emoji: "🛰",
-    desc: "Loads a web proxy UI in fullscreen.",
-    url: "https://example-proxy-1.github.io"
+    id: "classroom",
+    name: "Google Classroom",
+    emoji: "📚",
+    desc: "Makes the tab look like Google Classroom.",
+    title: "Google Classroom",
+    icon: "https://ssl.gstatic.com/classroom/favicon.ico"
   },
   {
-    id: "proxy-2",
-    name: "Cloaked Browser",
-    emoji: "🕶",
-    desc: "Simple web tool interface in an iframe.",
-    url: "https://example-proxy-2.github.io"
+    id: "learning",
+    name: "Learning App",
+    emoji: "📘",
+    desc: "Makes the tab look like a learning dashboard.",
+    title: "Learning Dashboard",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Blue_book_icon.svg"
   }
 ];
 
@@ -62,7 +68,7 @@ function createCard(item, type) {
       <div class="card-body">${item.desc}</div>
     </div>
     <div class="card-footer">
-      <span class="card-tag">${type === "game" ? "Game" : "Proxy"}</span>
+      <span class="card-tag">${type === "game" ? "Game" : "Cloaker"}</span>
       <button class="card-button">Open</button>
     </div>
   `;
