@@ -2,64 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Proxy | Unblocked Hub</title>
+  <title>Proxy Loader</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="assets/style.css" />
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      background: #020617;
+      background: #000;
+      font-family: Arial, sans-serif;
     }
-    .frame-wrap {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-    }
+
     header {
-      padding: 8px 14px;
+      padding: 10px 14px;
+      background: #111;
+      color: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(15, 23, 42, 0.95);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
-      z-index: 10;
+      border-bottom: 1px solid #333;
     }
-    header span {
-      font-size: 0.9rem;
-      color: #e5e7eb;
-    }
+
     header button {
+      background: #333;
+      color: white;
       border: none;
-      border-radius: 999px;
-      padding: 5px 10px;
-      font-size: 0.8rem;
+      padding: 6px 12px;
+      border-radius: 6px;
       cursor: pointer;
-      background: rgba(148, 163, 184, 0.2);
-      color: #e5e7eb;
     }
+
+    header button:hover {
+      background: #444;
+    }
+
     iframe {
-      flex: 1;
-      border: none;
       width: 100%;
-      background: #000;
+      height: calc(100vh - 50px);
+      border: none;
+      background: black;
     }
   </style>
 </head>
-<body>
-  <div class="frame-wrap">
-    <header>
-      <span id="proxy-title">Loading…</span>
-      <div>
-        <button onclick="window.location.href='index.html'">Back</button>
-      </div>
-    </header>
-    <iframe id="proxy-frame" src=""></iframe>
-  </div>
 
+<body>
+
+  <!-- Top bar -->
+  <header>
+    <span id="proxy-title">Loading…</span>
+    <button onclick="window.location.href='index.html'">Back</button>
+  </header>
+
+  <!-- The proxy screen -->
+  <iframe id="proxy-frame"></iframe>
+
+  <!-- Load your config -->
   <script src="assets/app.js"></script>
+
+  <!-- Proxy loader logic -->
   <script>
     function getParam(name) {
       const url = new URL(window.location.href);
@@ -71,8 +71,8 @@
       const config = window.__UNBLOCKED_CONFIG__;
       const proxy = config.proxies.find(p => p.id === id);
 
-      const titleEl = document.getElementById("proxy-title");
       const frame = document.getElementById("proxy-frame");
+      const titleEl = document.getElementById("proxy-title");
 
       if (!proxy) {
         titleEl.textContent = "Proxy not found";
@@ -85,6 +85,6 @@
 
     document.addEventListener("DOMContentLoaded", loadProxy);
   </script>
+
 </body>
 </html>
-
