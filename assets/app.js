@@ -327,7 +327,7 @@ function init() {
 
   document.getElementById("reset-cloak").addEventListener("click", () => {
     localStorage.removeItem("activeCloak");
-    document.title = "Home";
+    document.title = "67";
     const link = document.querySelector("link[rel='icon']");
     if (link) link.href = "";
   });
